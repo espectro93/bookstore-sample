@@ -3,12 +3,11 @@ package com.espectro93.examples.springgraphqlbookstore.infrastructure.error;
 import graphql.ErrorType;
 import graphql.GraphQLError;
 import graphql.language.SourceLocation;
-import lombok.Getter;
-import org.springframework.http.HttpStatus;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 public class BadRequestException

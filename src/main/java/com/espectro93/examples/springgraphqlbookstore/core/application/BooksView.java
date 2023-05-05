@@ -1,4 +1,3 @@
 package com.espectro93.examples.springgraphqlbookstore.core.application;
 
-public class BooksView {
-}
+public class BooksView {}

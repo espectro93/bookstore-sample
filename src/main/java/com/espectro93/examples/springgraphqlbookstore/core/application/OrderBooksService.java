@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderBooksService implements OrderBooks {
+
     @Override
     public OrderedBooksView run(OrderBooksCommand input) {
         return null;

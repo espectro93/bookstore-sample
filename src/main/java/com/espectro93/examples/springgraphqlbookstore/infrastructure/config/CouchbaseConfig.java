@@ -5,5 +5,4 @@ import org.springframework.data.couchbase.repository.config.EnableCouchbaseRepos
 
 @Configuration
 @EnableCouchbaseRepositories
-public class CouchbaseConfig {
-}
+public class CouchbaseConfig {}

@@ -1,4 +1,3 @@
 package com.espectro93.examples.springgraphqlbookstore.core.ports.out;
 
-public interface SaveBookOrder {
-}
+public interface SaveBookOrder {}

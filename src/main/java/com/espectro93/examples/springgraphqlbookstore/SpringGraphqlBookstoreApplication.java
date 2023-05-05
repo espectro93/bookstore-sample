@@ -9,5 +9,4 @@ public class SpringGraphqlBookstoreApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringGraphqlBookstoreApplication.class, args);
     }
-
 }
