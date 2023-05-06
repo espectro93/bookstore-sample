@@ -1,7 +1,10 @@
 package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence;
 
 import com.espectro93.examples.springgraphqlbookstore.core.domain.Book;
+import com.espectro93.examples.springgraphqlbookstore.core.domain.BookId;
 import java.util.List;
+import lombok.Builder;
+import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.Field;
@@ -18,6 +21,29 @@ public record BookEntity(
     @Field int stock
 ) {
     public static BookEntity fromDomain(Book book) {
-        throw new UnsupportedOperationException("to be implemented");
+        return new BookEntity(
+            book.getId().id(),
+            book.getTitle(),
+            book.getAuthors(),
+            book.getPublishDate(),
+            book.getPages(),
+            book.getIsbn(),
+            book.getPublisherName(),
+            book.getStock()
+        );
+    }
+
+    public static Book toDomain(BookEntity entity) {
+        return Book
+            .builder()
+            .id(new BookId(entity.id()))
+            .title(entity.title())
+            .authors(entity.authors())
+            .publishDate(entity.publishDate())
+            .pages(entity.pages())
+            .isbn(entity.isbn())
+            .publisherName(entity.publisherName())
+            .stock(entity.stock())
+            .build();
     }
 }

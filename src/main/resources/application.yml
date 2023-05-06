@@ -1,0 +1,5 @@
+storage:
+  host: couchbase://127.0.0.1
+  bucket: bookstore-sample
+  username: Administrator
+  password: password
