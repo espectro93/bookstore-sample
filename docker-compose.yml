@@ -1,9 +1,21 @@
-version: '3'
+version: "3.8"
 services:
-  db:
-    image: couchbase/server:latest
+
+  couchbase-server:
+    build: ./cb-local-server
     ports:
       - 8091:8091
       - 8092:8092
       - 8093:8093
       - 11210:11210
+    environment:
+      - CLUSTER_NAME=couchbase-local
+      - COUCHBASE_ADMINISTRATOR_USERNAME=Administrator
+      - COUCHBASE_ADMINISTRATOR_PASSWORD=password
+      - COUCHBASE_BUCKET=bookstore-sample
+    hostname: couchbase-server
+    container_name: couchbase-server
+    working_dir: /opt/couchbase
+    entrypoint: [""]
+    command: sh -c "/opt/couchbase/init/init-cb-local.sh"
+
