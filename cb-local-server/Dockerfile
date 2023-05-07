@@ -1,2 +1,2 @@
 FROM couchbase/server:latest
-COPY init-cb-local.sh /opt/couchbase/init
+COPY init-cb-local.sh /opt/couchbase/init/

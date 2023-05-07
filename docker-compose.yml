@@ -16,6 +16,8 @@ services:
     hostname: couchbase-server
     container_name: couchbase-server
     working_dir: /opt/couchbase
+    stdin_open: true
+    tty: true
     entrypoint: [""]
-    command: sh -c "/opt/couchbase/init/init-cb-local.sh"
+    command: sh -c "chmod +x /opt/couchbase/init/init-cb-local.sh && /opt/couchbase/init/init-cb-local.sh"
 
