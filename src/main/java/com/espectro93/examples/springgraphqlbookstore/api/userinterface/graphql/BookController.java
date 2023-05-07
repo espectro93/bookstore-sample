@@ -1,6 +1,7 @@
 package com.espectro93.examples.springgraphqlbookstore.api.userinterface.graphql;
 
 import com.espectro93.examples.springgraphqlbookstore.core.application.GetBookCommand;
+import com.espectro93.examples.springgraphqlbookstore.core.application.GetBooksPagedCommand;
 import com.espectro93.examples.springgraphqlbookstore.core.domain.BookId;
 import com.espectro93.examples.springgraphqlbookstore.core.ports.in.GetBook;
 import com.espectro93.examples.springgraphqlbookstore.core.ports.in.GetBooksPaged;
@@ -9,6 +10,7 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -31,7 +33,9 @@ public class BookController {
 
     @QueryMapping
     public Page<BookDto> getBooksPaged(@Argument int page, @Argument int size) {
-        return null;
+        return getBooksPaged
+            .run(new GetBooksPagedCommand(PageRequest.of(page, size)))
+            .map(BookDto::createFrom);
     }
 
     @MutationMapping

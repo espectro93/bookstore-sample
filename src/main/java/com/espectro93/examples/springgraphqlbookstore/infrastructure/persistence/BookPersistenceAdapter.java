@@ -8,6 +8,8 @@ import com.espectro93.examples.springgraphqlbookstore.infrastructure.error.Entit
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,8 +28,8 @@ public class BookPersistenceAdapter implements LoadBook, LoadBooks {
     }
 
     @Override
-    public List<Book> loadByPageable(int page, int size) {
-        return null;
+    public Page<Book> loadByPageable(Pageable pageable) {
+        return bookRepository.findAll(pageable).map(BookEntity::toDomain);
     }
 
     @Override

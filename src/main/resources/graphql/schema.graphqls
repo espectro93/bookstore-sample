@@ -11,4 +11,5 @@ type Book {
 
 type Query{
     getBook(bookId: String!): Book!
+    getBooksPaged(page: Int, size: Int): [Book]
 }

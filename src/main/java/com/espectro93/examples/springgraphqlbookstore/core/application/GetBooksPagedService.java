@@ -6,6 +6,8 @@ import com.espectro93.examples.springgraphqlbookstore.core.ports.out.LoadBooks;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,10 +17,7 @@ public class GetBooksPagedService implements GetBooksPaged {
     private final LoadBooks loadBooks;
 
     @Override
-    public List<Book> run(GetBooksPagedCommand input) {
-        return loadBooks.loadByPageable(
-            input.pageRequest().getPageNumber(),
-            input.pageRequest().getPageSize()
-        );
+    public Page<Book> run(GetBooksPagedCommand input) {
+        return loadBooks.loadByPageable(input.pageRequest());
     }
 }
