@@ -15,15 +15,13 @@ public class OrderBooksService implements OrderBooks {
     private final SaveBookOrder saveBookOrder;
 
     @Override
-    public OrderedBooksView run(OrderBooksCommand input) {
-        return OrderedBooksView.createFrom(
-            saveBookOrder.save(
-                Order
-                    .builder()
-                    .customerId(input.customerId())
-                    .bookIds(input.bookIds())
-                    .build()
-            )
+    public Order run(OrderBooksCommand input) {
+        return saveBookOrder.save(
+            Order
+                .builder()
+                .customerId(input.customerId())
+                .bookIds(input.bookIds())
+                .build()
         );
     }
 }

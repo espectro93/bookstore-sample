@@ -1,18 +1,18 @@
-package com.espectro93.examples.springgraphqlbookstore.core.application;
+package com.espectro93.examples.springgraphqlbookstore.api.userinterface.graphql;
 
 import com.espectro93.examples.springgraphqlbookstore.core.domain.BookId;
 import com.espectro93.examples.springgraphqlbookstore.core.domain.Order;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-public record OrderedBooksView(
+public record OrderDto(
     String id,
     String customerId,
     ZonedDateTime date,
     List<String> bookIds
 ) {
-    public static OrderedBooksView createFrom(Order order) {
-        return new OrderedBooksView(
+    public static OrderDto createFrom(Order order) {
+        return new OrderDto(
             order.getId().id(),
             order.getCustomerId().id(),
             order.getDate(),

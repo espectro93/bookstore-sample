@@ -1,5 +1,6 @@
 package com.espectro93.examples.springgraphqlbookstore.core.application;
 
+import com.espectro93.examples.springgraphqlbookstore.core.domain.Book;
 import com.espectro93.examples.springgraphqlbookstore.core.ports.in.GetBook;
 import com.espectro93.examples.springgraphqlbookstore.core.ports.out.LoadBook;
 import lombok.AccessLevel;
@@ -13,7 +14,7 @@ public class GetBookService implements GetBook {
     private final LoadBook loadBook;
 
     @Override
-    public BookView run(GetBookCommand input) {
-        return BookView.createFrom(loadBook.loadBy(input.bookId()));
+    public Book run(GetBookCommand input) {
+        return loadBook.loadBy(input.bookId());
     }
 }
