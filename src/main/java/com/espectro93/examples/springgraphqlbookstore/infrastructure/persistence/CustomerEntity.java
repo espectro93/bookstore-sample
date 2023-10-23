@@ -1,6 +1,6 @@
 package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence;
 
-import com.espectro93.examples.springgraphqlbookstore.core.domain.Customer;
+import com.espectro93.examples.springgraphqlbookstore.core.domain.order.Customer;
 
 public record CustomerEntity(
     String id,

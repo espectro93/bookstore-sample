@@ -1,6 +1,6 @@
 package com.espectro93.examples.springgraphqlbookstore.api.userinterface.graphql;
 
-import com.espectro93.examples.springgraphqlbookstore.core.domain.Book;
+import com.espectro93.examples.springgraphqlbookstore.core.domain.book.Book;
 import java.util.List;
 
 public record BookDto(

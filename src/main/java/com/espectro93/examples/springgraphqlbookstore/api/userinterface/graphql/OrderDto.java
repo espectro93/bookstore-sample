@@ -1,7 +1,7 @@
 package com.espectro93.examples.springgraphqlbookstore.api.userinterface.graphql;
 
-import com.espectro93.examples.springgraphqlbookstore.core.domain.BookId;
-import com.espectro93.examples.springgraphqlbookstore.core.domain.Order;
+import com.espectro93.examples.springgraphqlbookstore.core.domain.book.BookId;
+import com.espectro93.examples.springgraphqlbookstore.core.domain.order.Order;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -16,7 +16,7 @@ public record OrderDto(
             order.getId().id(),
             order.getCustomerId().id(),
             order.getDate(),
-            order.getBookIds().stream().map(BookId::id).toList()
+            order.getOrderItems().stream().map(BookId::id).toList()
         );
     }
 }

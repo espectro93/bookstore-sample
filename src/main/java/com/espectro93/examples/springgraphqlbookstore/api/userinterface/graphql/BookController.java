@@ -2,7 +2,9 @@ package com.espectro93.examples.springgraphqlbookstore.api.userinterface.graphql
 
 import com.espectro93.examples.springgraphqlbookstore.core.application.GetBookCommand;
 import com.espectro93.examples.springgraphqlbookstore.core.application.GetBooksPagedCommand;
-import com.espectro93.examples.springgraphqlbookstore.core.domain.BookId;
+import com.espectro93.examples.springgraphqlbookstore.core.application.OrderBooksCommand;
+import com.espectro93.examples.springgraphqlbookstore.core.domain.book.BookId;
+import com.espectro93.examples.springgraphqlbookstore.core.domain.order.CustomerId;
 import com.espectro93.examples.springgraphqlbookstore.core.ports.in.GetBook;
 import com.espectro93.examples.springgraphqlbookstore.core.ports.in.GetBooksPaged;
 import com.espectro93.examples.springgraphqlbookstore.core.ports.in.OrderBooks;
@@ -39,7 +41,11 @@ public class BookController {
     }
 
     @MutationMapping
-    public String orderBooks(@Argument List<String> bookIds) {
-        return "";
+    public OrderDto orderBooks(@Argument String customerId, @Argument List<String> bookIds) {
+        return OrderDto.createFrom(
+                orderBooks.run(
+                        new OrderBooksCommand(new CustomerId(customerId), bookIds.stream().map(BookId::new).toList())
+                )
+        );
     }
 }

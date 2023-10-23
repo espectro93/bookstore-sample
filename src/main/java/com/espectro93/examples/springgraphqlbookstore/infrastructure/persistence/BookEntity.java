@@ -1,10 +1,9 @@
 package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence;
 
-import com.espectro93.examples.springgraphqlbookstore.core.domain.Book;
-import com.espectro93.examples.springgraphqlbookstore.core.domain.BookId;
+import com.espectro93.examples.springgraphqlbookstore.core.domain.book.Book;
+import com.espectro93.examples.springgraphqlbookstore.core.domain.book.BookId;
 import java.util.List;
-import lombok.Builder;
-import lombok.Getter;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.Field;

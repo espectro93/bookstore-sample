@@ -1,6 +1,6 @@
 package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence;
 
-import com.espectro93.examples.springgraphqlbookstore.core.domain.Order;
+import com.espectro93.examples.springgraphqlbookstore.core.domain.order.Order;
 import java.time.ZonedDateTime;
 import java.util.List;
 

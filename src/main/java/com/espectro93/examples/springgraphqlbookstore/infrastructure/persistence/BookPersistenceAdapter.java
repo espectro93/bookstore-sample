@@ -1,9 +1,10 @@
 package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence;
 
-import com.espectro93.examples.springgraphqlbookstore.core.domain.Book;
-import com.espectro93.examples.springgraphqlbookstore.core.domain.BookId;
+import com.espectro93.examples.springgraphqlbookstore.core.domain.book.Book;
+import com.espectro93.examples.springgraphqlbookstore.core.domain.book.BookId;
 import com.espectro93.examples.springgraphqlbookstore.core.ports.out.LoadBook;
 import com.espectro93.examples.springgraphqlbookstore.core.ports.out.LoadBooks;
+import com.espectro93.examples.springgraphqlbookstore.core.ports.out.SaveBooks;
 import com.espectro93.examples.springgraphqlbookstore.infrastructure.error.EntityNotFoundException;
 import java.util.List;
 import lombok.AccessLevel;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class BookPersistenceAdapter implements LoadBook, LoadBooks {
+public class BookPersistenceAdapter implements LoadBook, LoadBooks, SaveBooks {
 
     private final BookRepository bookRepository;
 
@@ -39,5 +40,10 @@ public class BookPersistenceAdapter implements LoadBook, LoadBooks {
             .stream()
             .map(BookEntity::toDomain)
             .toList();
+    }
+
+    @Override
+    public void save(List<Book> books) {
+        bookRepository.saveAll(books);
     }
 }
