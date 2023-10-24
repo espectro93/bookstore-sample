@@ -5,4 +5,5 @@ import java.time.Instant;
 public interface DomainEvent {
     String eventId();
     Instant eventTime();
+    String eventType();
 }

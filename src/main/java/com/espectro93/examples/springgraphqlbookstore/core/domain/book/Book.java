@@ -28,7 +28,7 @@ public class Book implements AggregateRoot<BookId, Book> {
     private final int stock;
     private final List<DomainEvent> uncommittedEvents = new ArrayList<>();
 
-    public static Book createBook(String title, List<String> authors, String publishDate, int pages, String isbn, String publisherName, int stock) {
+    public static Book addBookToCatalog(String title, List<String> authors, String publishDate, int pages, String isbn, String publisherName, int stock) {
         var book = Book.builder()
                 .title(title)
                 .authors(authors)
@@ -39,7 +39,12 @@ public class Book implements AggregateRoot<BookId, Book> {
                 .stock(stock)
                 .build();
         var bookAddedToCatalogEvent = book.createBookAddedToCatalogEvent();
+        book.uncommittedEvents.add(bookAddedToCatalogEvent);
         return book.applyEvent(bookAddedToCatalogEvent);
+    }
+
+    public static Book rehydrate(List<DomainEvent> events) {
+        for(var event : events)
     }
 
     private BookAddedToCatalogEvent createBookAddedToCatalogEvent() {
@@ -55,17 +60,19 @@ public class Book implements AggregateRoot<BookId, Book> {
     }
     public Book increaseStock(int quantity) {
         var stockIncreasedEvent = new StockIncreasedEvent(quantity);
+        uncommittedEvents.add(stockIncreasedEvent);
         return applyEvent(stockIncreasedEvent);
     }
 
     public Book decreaseStock(int quantity) {
         var stockDecreasedEvent = new StockDecreasedEvent(quantity);
+        uncommittedEvents.add(stockDecreasedEvent);
         return applyEvent(stockDecreasedEvent);
     }
 
     @Override
     public Book applyEvent(DomainEvent event) {
-        var aggregate = switch (event) {
+        return switch (event) {
             case StockIncreasedEvent stockIncreasedEvent -> {
                 var newStock = stock + stockIncreasedEvent.quantity();
                 yield Book.builder()
@@ -82,7 +89,5 @@ public class Book implements AggregateRoot<BookId, Book> {
             case BookAddedToCatalogEvent ignored -> this;
             default -> throw new IllegalArgumentException("event type is not supported");
         };
-        aggregate.uncommittedEvents.add(event);
-        return aggregate;
     }
 }
