@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Builder(toBuilder = true)
@@ -28,6 +29,7 @@ public class Book implements AggregateRoot<BookId, Book> {
     private final int stock;
     private final List<DomainEvent> uncommittedEvents = new ArrayList<>();
 
+    @Builder
     public static Book addBookToCatalog(String title, List<String> authors, String publishDate, int pages, String isbn, String publisherName, int stock) {
         var book = Book.builder()
                 .title(title)
@@ -43,12 +45,9 @@ public class Book implements AggregateRoot<BookId, Book> {
         return book.applyEvent(bookAddedToCatalogEvent);
     }
 
-    public static Book rehydrate(List<DomainEvent> events) {
-        for(var event : events)
-    }
-
     private BookAddedToCatalogEvent createBookAddedToCatalogEvent() {
         return BookAddedToCatalogEvent.builder()
+                .bookId(id)
                 .title(title)
                 .authors(authors)
                 .publishDate(publishDate)
@@ -59,13 +58,13 @@ public class Book implements AggregateRoot<BookId, Book> {
                 .build();
     }
     public Book increaseStock(int quantity) {
-        var stockIncreasedEvent = new StockIncreasedEvent(quantity);
+        var stockIncreasedEvent = new StockIncreasedEvent(id, quantity);
         uncommittedEvents.add(stockIncreasedEvent);
         return applyEvent(stockIncreasedEvent);
     }
 
     public Book decreaseStock(int quantity) {
-        var stockDecreasedEvent = new StockDecreasedEvent(quantity);
+        var stockDecreasedEvent = new StockDecreasedEvent(id, quantity);
         uncommittedEvents.add(stockDecreasedEvent);
         return applyEvent(stockDecreasedEvent);
     }
@@ -89,5 +88,26 @@ public class Book implements AggregateRoot<BookId, Book> {
             case BookAddedToCatalogEvent ignored -> this;
             default -> throw new IllegalArgumentException("event type is not supported");
         };
+    }
+
+    public static Book rehydrate(List<DomainEvent> events) {
+        return events.stream()
+                .<Optional<Book>>reduce(
+                        Optional.empty(),
+                        (currentBook, event) -> currentBook.map(b -> b.applyEvent(event))
+                                .or(() -> event instanceof BookAddedToCatalogEvent bookAddedToCatalogEvent
+                                        ? Optional.of(Book.builder()
+                                        .id(bookAddedToCatalogEvent.aggregateId())
+                                        .title(bookAddedToCatalogEvent.title())
+                                        .authors(bookAddedToCatalogEvent.authors())
+                                        .publishDate(bookAddedToCatalogEvent.publishDate())
+                                        .pages(bookAddedToCatalogEvent.pages())
+                                        .isbn(bookAddedToCatalogEvent.isbn())
+                                        .publisherName(bookAddedToCatalogEvent.publisherName())
+                                        .stock(bookAddedToCatalogEvent.stock())
+                                        .build())
+                                        : Optional.empty()),
+                        (existingBook, newBook) -> newBook
+                ).orElseThrow(() -> new IllegalArgumentException("cannot build book aggregate from events"));
     }
 }

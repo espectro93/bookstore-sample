@@ -1,20 +1,15 @@
 package com.espectro93.examples.springgraphqlbookstore.api.userinterface.graphql;
 
-import com.espectro93.examples.springgraphqlbookstore.core.application.GetBookCommand;
-import com.espectro93.examples.springgraphqlbookstore.core.application.GetBooksPagedCommand;
-import com.espectro93.examples.springgraphqlbookstore.core.application.OrderBooksCommand;
+import com.espectro93.examples.springgraphqlbookstore.core.application.book.ViewBookQuery;
+import com.espectro93.examples.springgraphqlbookstore.core.application.book.ViewBooksPagedQuery;
 import com.espectro93.examples.springgraphqlbookstore.core.domain.book.BookId;
-import com.espectro93.examples.springgraphqlbookstore.core.domain.order.CustomerId;
-import com.espectro93.examples.springgraphqlbookstore.core.ports.in.GetBook;
-import com.espectro93.examples.springgraphqlbookstore.core.ports.in.GetBooksPaged;
-import com.espectro93.examples.springgraphqlbookstore.core.ports.in.OrderBooks;
-import java.util.List;
+import com.espectro93.examples.springgraphqlbookstore.core.ports.in.ViewBook;
+import com.espectro93.examples.springgraphqlbookstore.core.ports.in.ViewBooksPaged;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
@@ -22,30 +17,20 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class BookController {
 
-    private final GetBook getBook;
-    private final GetBooksPaged getBooksPaged;
-    private final OrderBooks orderBooks;
+    private final ViewBook viewBook;
+    private final ViewBooksPaged viewBooksPaged;
 
     @QueryMapping
     public BookDto getBook(@Argument String bookId) {
         return BookDto.createFrom(
-            getBook.run(new GetBookCommand(new BookId(bookId)))
+            viewBook.run(new ViewBookQuery(new BookId(bookId)))
         );
     }
 
     @QueryMapping
     public Page<BookDto> getBooksPaged(@Argument int page, @Argument int size) {
-        return getBooksPaged
-            .run(new GetBooksPagedCommand(PageRequest.of(page, size)))
+        return viewBooksPaged
+            .run(new ViewBooksPagedQuery(PageRequest.of(page, size)))
             .map(BookDto::createFrom);
-    }
-
-    @MutationMapping
-    public OrderDto orderBooks(@Argument String customerId, @Argument List<String> bookIds) {
-        return OrderDto.createFrom(
-                orderBooks.run(
-                        new OrderBooksCommand(new CustomerId(customerId), bookIds.stream().map(BookId::new).toList())
-                )
-        );
     }
 }

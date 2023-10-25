@@ -1,6 +1,7 @@
 package com.espectro93.examples.springgraphqlbookstore.api.userinterface.graphql;
 
-import com.espectro93.examples.springgraphqlbookstore.core.domain.book.Book;
+import com.espectro93.examples.springgraphqlbookstore.core.domain.book.BookView;
+
 import java.util.List;
 
 public record BookDto(
@@ -11,18 +12,18 @@ public record BookDto(
     int pages,
     String isbn,
     String publisherName,
-    boolean inStock
+    int stock
 ) {
-    public static BookDto createFrom(Book book) {
+    public static BookDto createFrom(BookView bookView) {
         return new BookDto(
-            book.getId().id(),
-            book.getTitle(),
-            book.getAuthors(),
-            book.getPublishDate(),
-            book.getPages(),
-            book.getIsbn(),
-            book.getPublisherName(),
-            book.getStock() > 0
+            bookView.bookId().id(),
+                bookView.title(),
+                bookView.authors(),
+                bookView.publishDate(),
+                bookView.pages(),
+                bookView.isbn(),
+                bookView.publisherName(),
+                bookView.stock()
         );
     }
 }

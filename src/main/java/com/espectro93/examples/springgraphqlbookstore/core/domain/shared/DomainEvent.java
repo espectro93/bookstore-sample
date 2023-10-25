@@ -4,6 +4,7 @@ import java.time.Instant;
 
 public interface DomainEvent {
     String eventId();
+    Identifiable aggregateId();
     Instant eventTime();
     String eventType();
 }

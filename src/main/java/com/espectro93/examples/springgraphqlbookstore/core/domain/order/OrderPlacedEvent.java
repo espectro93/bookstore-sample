@@ -7,9 +7,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-public record OrderPlacedEvent(String eventId, Instant eventTime, OrderId orderId, CustomerId customerId, List<OrderItem> orderItems) implements DomainEvent {
+public record OrderPlacedEvent(String eventId, OrderId aggregateId, Instant eventTime, String eventType, CustomerId customerId, List<OrderItem> orderItems, OrderState orderState) implements DomainEvent {
     @Builder
-    public OrderPlacedEvent(OrderId orderId, CustomerId customerId, List<OrderItem> orderItems) {
-        this(UUID.randomUUID().toString(), Instant.now(), orderId, customerId, orderItems);
+    public OrderPlacedEvent(OrderId orderId, CustomerId customerId, List<OrderItem> orderItems, OrderState orderState) {
+        this(UUID.randomUUID().toString(), orderId, Instant.now(), "OrderPlacedEvent", customerId, orderItems, orderState);
     }
 }
