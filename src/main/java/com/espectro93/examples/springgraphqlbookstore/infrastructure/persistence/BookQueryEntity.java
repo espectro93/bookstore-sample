@@ -1,12 +1,13 @@
 package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence;
 
-import com.espectro93.examples.springgraphqlbookstore.core.domain.book.BookId;
-import com.espectro93.examples.springgraphqlbookstore.core.domain.book.BookView;
+import com.espectro93.examples.springgraphqlbookstore.core.domain.book.*;
+import lombok.Builder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Field;
 
 import java.util.List;
 
+@Builder(toBuilder = true)
 public record BookQueryEntity(@Id String id,
                               @Field String title,
                               @Field List<String> authors,
@@ -15,7 +16,7 @@ public record BookQueryEntity(@Id String id,
                               @Field String isbn,
                               @Field String publisherName,
                               @Field int stock) {
-    public static BookView toDomain(BookQueryEntity entity) {
+    public static BookView toView(BookQueryEntity entity) {
         return new BookView(
                 new BookId(entity.id()),
                 entity.title(),
@@ -26,5 +27,30 @@ public record BookQueryEntity(@Id String id,
                 entity.pages(),
                 entity.stock()
         );
+    }
+
+    public static BookQueryEntity fromEvent(BookAddedToCatalogEvent bookAddedToCatalogEvent) {
+        return new BookQueryEntity(
+                bookAddedToCatalogEvent.aggregateId().id(),
+                bookAddedToCatalogEvent.title(),
+                bookAddedToCatalogEvent.authors(),
+                bookAddedToCatalogEvent.publishDate(),
+                bookAddedToCatalogEvent.pages(),
+                bookAddedToCatalogEvent.isbn(),
+                bookAddedToCatalogEvent.publisherName(),
+                bookAddedToCatalogEvent.stock()
+        );
+    }
+
+    public BookQueryEntity fromEvent(StockDecreasedEvent stockDecreasedEvent) {
+        return this.toBuilder()
+                .stock(stock - stockDecreasedEvent.quantity())
+                .build();
+    }
+
+    public BookQueryEntity fromEvent(StockIncreasedEvent stockIncreasedEvent) {
+        return this.toBuilder()
+                .stock(stock + stockIncreasedEvent.quantity())
+                .build();
     }
 }

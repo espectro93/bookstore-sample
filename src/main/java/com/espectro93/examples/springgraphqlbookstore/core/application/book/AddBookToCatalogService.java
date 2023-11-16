@@ -1,7 +1,7 @@
 package com.espectro93.examples.springgraphqlbookstore.core.application.book;
 
 import com.espectro93.examples.springgraphqlbookstore.core.domain.book.Book;
-import com.espectro93.examples.springgraphqlbookstore.core.domain.shared.UseCase;
+import com.espectro93.examples.springgraphqlbookstore.core.ports.in.AddBookToCatalog;
 import com.espectro93.examples.springgraphqlbookstore.core.ports.out.BookCommandPort;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class AddBookToCatalogService implements UseCase<AddBookToCatalogCommand, Book> {
+public class AddBookToCatalogService implements AddBookToCatalog {
 
     private final BookCommandPort bookCommandPort;
 

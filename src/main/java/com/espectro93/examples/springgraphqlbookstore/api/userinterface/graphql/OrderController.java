@@ -24,4 +24,13 @@ public class OrderController {
                 )
         );
     }
+
+    @MutationMapping
+    public OrderDto cancelOrder(@Argument String customerId, @Argument List<PlaceOrderItemDto> placeOrderItems) {
+        return OrderDto.createFrom(
+                placeOrder.run(
+                        new PlaceOrderCommand(new CustomerId(customerId), placeOrderItems.stream().map(PlaceOrderItemDto::toDomain).toList())
+                )
+        );
+    }
 }

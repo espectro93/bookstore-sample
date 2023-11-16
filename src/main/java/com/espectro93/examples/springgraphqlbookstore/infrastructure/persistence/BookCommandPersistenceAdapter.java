@@ -5,6 +5,7 @@ import com.espectro93.examples.springgraphqlbookstore.core.domain.book.BookId;
 import com.espectro93.examples.springgraphqlbookstore.core.ports.out.BookCommandPort;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -13,6 +14,7 @@ import java.util.Collections;
 public class BookCommandPersistenceAdapter implements BookCommandPort {
 
     private final DomainEventRepository domainEventRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public Book loadBy(BookId bookId) {
@@ -23,5 +25,6 @@ public class BookCommandPersistenceAdapter implements BookCommandPort {
     @Override
     public void save(Book book) {
         domainEventRepository.saveAll(book.getUncommittedEvents().stream().map(DomainEventEntity::createFrom).toList());
+        book.getUncommittedEvents().forEach(eventPublisher::publishEvent);
     }
 }
