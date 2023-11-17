@@ -5,7 +5,6 @@ import com.espectro93.examples.springgraphqlbookstore.core.ports.in.PlaceOrder;
 import com.espectro93.examples.springgraphqlbookstore.core.ports.out.OrderCommandPort;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,13 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class PlaceOrderService implements PlaceOrder {
 
     private final OrderCommandPort orderCommandPort;
-    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     public Order run(PlaceOrderCommand input) {
         var order = Order.placeOrder(input.customerId(), input.orderItems());
         orderCommandPort.save(order);
-        order.getUncommittedEvents().forEach(applicationEventPublisher::publishEvent); //TODO: outbox
         return order;
     }
 }
