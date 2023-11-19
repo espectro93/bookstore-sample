@@ -1,4 +1,4 @@
-package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence;
+package com.espectro93.examples.springgraphqlbookstore.infrastructure.outbox;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class OutboxScheduler {
     // what about optimistic locking here?
     @Scheduled
     void handleOutboxQueryEvents() {
-        var outboxEntities = outboxRepository.findAllByPublishedFalse();
+        var outboxEntities = outboxRepository.findAllByState(OutboxState.UNPROCESSED);
         outboxEntities.forEach(entity -> applicationEventPublisher.publishEvent(entity.event()));
     }
 }

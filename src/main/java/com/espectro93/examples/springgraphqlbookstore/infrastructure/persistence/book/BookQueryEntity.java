@@ -1,4 +1,4 @@
-package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence;
+package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence.book;
 
 import com.espectro93.examples.springgraphqlbookstore.core.domain.book.*;
 import lombok.Builder;

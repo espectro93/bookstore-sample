@@ -8,8 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.time.Instant;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +25,7 @@ public class Order implements AggregateRoot<OrderId, Order> {
     private final CustomerId customerId;
 
     @Builder.Default
-    private final ZonedDateTime date = ZonedDateTime.now();
+    private final Instant date = Instant.now();
 
     private final List<OrderItem> orderItems;
 
@@ -45,16 +45,20 @@ public class Order implements AggregateRoot<OrderId, Order> {
     }
 
     private OrderPlacedEvent createOrderPlacedEvent() {
-        return new OrderPlacedEvent(id, customerId, orderItems, orderState);
+        return new OrderPlacedEvent(id, date, customerId, orderItems, orderState);
+    }
+
+    public Order cancelOrder() {
+        var orderCancelledEvent = new OrderCancelledEvent(id, customerId, orderItems);
+        uncommittedEvents.add(orderCancelledEvent);
+        return applyEvent(orderCancelledEvent);
     }
 
     @Override
     public Order applyEvent(DomainEvent event) {
         return switch (event) {
-            case OrderPlacedEvent orderPlacedEvent -> Order.builder()
-                    .orderItems(orderPlacedEvent.orderItems())
-                    .date(orderPlacedEvent.eventTime().atZone(ZoneOffset.UTC))
-                    .build();
+            case OrderPlacedEvent ignored -> this;
+            case OrderCancelledEvent orderCancelledEvent -> Order.builder().orderState(orderCancelledEvent.orderState()).build();
             default -> throw new IllegalStateException("Unexpected value: " + event);
         };
     }
@@ -66,12 +70,12 @@ public class Order implements AggregateRoot<OrderId, Order> {
                         (currentOrder, event) -> currentOrder.map(o -> o.applyEvent(event))
                                 .or(() -> event instanceof OrderPlacedEvent orderPlacedEvent
                                         ? Optional.of(Order.builder()
-                                                .id(orderPlacedEvent.aggregateId())
-                                                .orderItems(orderPlacedEvent.orderItems())
-                                                .date(orderPlacedEvent.eventTime().atZone(ZoneOffset.UTC))
+                                        .id(orderPlacedEvent.aggregateId())
+                                        .orderItems(orderPlacedEvent.orderItems())
+                                        .date(orderPlacedEvent.eventTime())
                                         .build())
                                         : Optional.empty()),
-                        (existingBook, newBook) -> newBook
+                        (existingOrder, newOrder) -> newOrder
                 ).orElseThrow(() -> new IllegalArgumentException("cannot build order aggregate from events"));
     }
 }

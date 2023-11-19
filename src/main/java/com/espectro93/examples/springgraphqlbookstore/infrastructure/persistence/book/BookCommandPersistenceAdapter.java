@@ -1,8 +1,12 @@
-package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence;
+package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence.book;
 
 import com.espectro93.examples.springgraphqlbookstore.core.domain.book.Book;
 import com.espectro93.examples.springgraphqlbookstore.core.domain.book.BookId;
 import com.espectro93.examples.springgraphqlbookstore.core.ports.out.BookCommandPort;
+import com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence.DomainEventEntity;
+import com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence.DomainEventRepository;
+import com.espectro93.examples.springgraphqlbookstore.infrastructure.outbox.OutboxEntity;
+import com.espectro93.examples.springgraphqlbookstore.infrastructure.outbox.OutboxRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
