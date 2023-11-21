@@ -3,3 +3,8 @@ storage:
   bucket: bookstore-sample
   username: Administrator
   password: password
+spring:
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin

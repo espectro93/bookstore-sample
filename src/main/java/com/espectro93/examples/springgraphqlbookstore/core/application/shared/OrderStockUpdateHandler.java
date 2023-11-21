@@ -6,6 +6,7 @@ import com.espectro93.examples.springgraphqlbookstore.core.ports.out.BookCommand
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +16,7 @@ public class OrderStockUpdateHandler {
 
     private final BookCommandPort bookCommandPort;
 
-    @Async
-    @EventListener
+    @JmsListener(destination = "OrderPlacedTopic", containerFactory = "jmsListenerContainerFactory")
     void handleOrderPlacedEvent(OrderPlacedEvent event) {
         event.orderItems().forEach(item -> {
             var book = bookCommandPort.loadBy(item.bookId());
@@ -25,8 +25,7 @@ public class OrderStockUpdateHandler {
         });
     }
 
-    @Async
-    @EventListener
+    @JmsListener(destination = "OrderCancelledTopic", containerFactory = "jmsListenerContainerFactory")
     void handleOrderCancelledEvent(OrderCancelledEvent event) {
         event.orderItems().forEach(item -> {
             var book = bookCommandPort.loadBy(item.bookId());

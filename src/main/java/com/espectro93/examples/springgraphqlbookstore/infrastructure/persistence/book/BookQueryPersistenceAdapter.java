@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -35,8 +36,7 @@ public class BookQueryPersistenceAdapter implements BookQueryPort {
                 .stream().map(BookQueryEntity::toView).toList();
     }
 
-    @Async
-    @EventListener
+    @JmsListener(destination = "BookAddedToCatalogTopic", containerFactory = "jmsListenerContainerFactory")
     void handleBookAddedToCatalogEvent(BookAddedToCatalogEvent event) {
         if (bookQueryRepository.existsById(event.aggregateId().id())) {
             throw new IllegalArgumentException("That book already exists");
@@ -45,8 +45,7 @@ public class BookQueryPersistenceAdapter implements BookQueryPort {
         bookQueryRepository.save(bookView);
     }
 
-    @Async
-    @EventListener
+    @JmsListener(destination = "StockDecreasedTopic", containerFactory = "jmsListenerContainerFactory")
     void handleStockDecreasedEvent(StockDecreasedEvent event) {
         var bookQueryEntity = bookQueryRepository.findById(event.aggregateId().id())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Book with id %s does not exist.", event.aggregateId().id())));
@@ -54,8 +53,7 @@ public class BookQueryPersistenceAdapter implements BookQueryPort {
         bookQueryRepository.save(bookView);
     }
 
-    @Async
-    @EventListener
+    @JmsListener(destination = "StockIncreasedTopic", containerFactory = "jmsListenerContainerFactory")
     void handleStockIncreasedEvent(StockIncreasedEvent event) {
         var bookQueryEntity = bookQueryRepository.findById(event.aggregateId().id())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Book with id %s does not exist.", event.aggregateId().id())));
