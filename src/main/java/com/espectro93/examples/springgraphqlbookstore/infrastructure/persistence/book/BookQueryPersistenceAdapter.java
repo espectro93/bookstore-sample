@@ -2,6 +2,7 @@ package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistenc
 
 import com.espectro93.examples.springgraphqlbookstore.core.domain.book.*;
 import com.espectro93.examples.springgraphqlbookstore.core.ports.out.BookQueryPort;
+import com.espectro93.examples.springgraphqlbookstore.infrastructure.error.NotFoundException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -22,7 +23,7 @@ public class BookQueryPersistenceAdapter implements BookQueryPort {
     @Override
     public BookView loadBy(BookId bookId) {
         return bookQueryRepository.findById(bookId.id()).map(BookQueryEntity::toView)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("book with bookId: %s not found", bookId.id())));
+                .orElseThrow(() -> new NotFoundException(String.format("book with bookId: %s not found", bookId.id())));
     }
 
     @Override

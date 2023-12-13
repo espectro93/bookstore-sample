@@ -21,7 +21,6 @@ public class JmsConfig {
 
         factory.setSessionTransacted(true);
 
-
         return factory;
     }
 

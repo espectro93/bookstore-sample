@@ -9,7 +9,55 @@ type Book {
     inStock: Boolean!
 }
 
+type Order {
+  id: ID!
+  customerId: String!
+  date: String!
+  orderItems: [OrderItem]!
+  orderState: String!
+}
+
+type OrderItem {
+  bookId: ID!
+  title: String!
+  isbn: String!
+  quantity: Int!
+}
+
+input CancelOrderItemInput {
+  bookId: ID!
+  title: String!
+  isbn: String!
+  quantity: Int!
+}
+
+input PlaceOrderItemInput {
+  bookId: ID!
+  title: String!
+  isbn: String!
+  quantity: Int!
+}
+
+input AddBookToCatalogInput {
+  title: String!
+  authors: [String!]!
+  publishDate: String!
+  pages: Int!
+  isbn: String!
+  publisherName: String!
+  stock: Int!
+}
+
 type Query{
     getBook(bookId: String!): Book!
     getBooksPaged(page: Int, size: Int): [Book]
+    viewOrder(orderId: ID!): Order
 }
+
+type Mutation {
+  placeOrder(customerId: String!, placeOrderItems: [PlaceOrderItemInput]!): Order
+  cancelOrder(customerId: String!, orderId: ID!, placeOrderItems: [PlaceOrderItemInput]!): Order
+  addBookToCatalog(input: AddBookToCatalogInput!): Book
+}
+
+

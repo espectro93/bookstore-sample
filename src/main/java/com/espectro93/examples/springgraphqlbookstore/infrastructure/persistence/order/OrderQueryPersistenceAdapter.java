@@ -3,6 +3,7 @@ package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistenc
 import com.espectro93.examples.springgraphqlbookstore.core.domain.order.OrderId;
 import com.espectro93.examples.springgraphqlbookstore.core.domain.order.OrderView;
 import com.espectro93.examples.springgraphqlbookstore.core.ports.out.OrderQueryPort;
+import com.espectro93.examples.springgraphqlbookstore.infrastructure.error.NotFoundException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,6 @@ public class OrderQueryPersistenceAdapter implements OrderQueryPort {
     public OrderView loadBy(OrderId orderId) {
         return orderQueryRepository.findById(orderId.id())
                 .map(OrderQueryEntity::toView)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Order with id %s not found.", orderId.id())));
+                .orElseThrow(() -> new NotFoundException(String.format("Order with id %s not found.", orderId.id())));
     }
 }

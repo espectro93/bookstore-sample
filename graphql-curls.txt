@@ -1,0 +1,35 @@
+curl --request POST \
+  --url http://localhost:8080/graphql \
+  --header 'Content-Type: application/json' \
+  --data '{"query": "mutation { cancelOrder(customerId: \"YOUR_CUSTOMER_ID\", orderId: \"YOUR_ORDER_ID\", placeOrderItems: [{ bookId: \"BOOK_ID1\", title: \"Book Title 1\", isbn: \"ISBN1\", quantity: 1 }, { bookId: \"BOOK_ID2\", title: \"Book Title 2\", isbn: \"ISBN2\", quantity: 2 }]) { id customerId date orderItems { bookId title isbn quantity } orderState } }"}'
+
+curl --request POST \
+  --url http://localhost:8080/graphql \
+  --header 'Content-Type: application/json' \
+  --data '{"query": "mutation { placeOrder(customerId: \"YOUR_CUSTOMER_ID\", placeOrderItems: [{ bookId: \"BOOK_ID1\", title: \"Book Title 1\", isbn: \"ISBN1\", quantity: 1 }, { bookId: \"BOOK_ID2\", title: \"Book Title 2\", isbn: \"ISBN2\", quantity: 2 }]) { id customerId date orderItems { bookId title isbn quantity } orderState } }"}'
+
+curl --request POST \
+  --url http://localhost:8080/graphql \
+  --header 'Content-Type: application/json' \
+  --data '{"query": "{ viewOrder(orderId: \"YOUR_ORDER_ID\") { id customerId date orderItems { bookId title isbn quantity } orderState } }"}'
+
+curl --request POST \
+  --url http://localhost:8080/graphql \
+  --header 'Content-Type: application/json' \
+  --data '{ "query": "{ getBook(bookId: \"123\") { id title authors publishDate } }" }'
+
+curl -X POST -H "Content-Type: application/json" --data '
+{
+  "query": "mutation AddBookToCatalog($input: AddBookToCatalogInput!) { addBookToCatalog(input: $input) { title authors publishDate pages isbn publisherName stock } }",
+  "variables": {
+    "input": {
+      "title": "Example Book Title",
+      "authors": ["Author One", "Author Two"],
+      "publishDate": "2023-01-01",
+      "pages": 300,
+      "isbn": "123-456-7890",
+      "publisherName": "Example Publisher",
+      "stock": 100
+    }
+  }
+}' http://localhost:8080/graphql

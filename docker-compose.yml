@@ -21,3 +21,10 @@ services:
     entrypoint: [""]
     command: sh -c "chmod +x /opt/couchbase/init/init-cb-local.sh && /opt/couchbase/init/init-cb-local.sh"
 
+  activemq:
+    image: rmohr/activemq:5.15.9
+    ports:
+      - 8161:8161 # Web Console
+      - 61616:61616 # JMS
+    container_name: activemq
+    hostname: activemq

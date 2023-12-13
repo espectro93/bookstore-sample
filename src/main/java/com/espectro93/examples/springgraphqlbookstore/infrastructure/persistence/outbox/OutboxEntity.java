@@ -1,4 +1,4 @@
-package com.espectro93.examples.springgraphqlbookstore.infrastructure.outbox;
+package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence.outbox;
 
 import com.espectro93.examples.springgraphqlbookstore.core.domain.shared.DomainEvent;
 import lombok.Builder;

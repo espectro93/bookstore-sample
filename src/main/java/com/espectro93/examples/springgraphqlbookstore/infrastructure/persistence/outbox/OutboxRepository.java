@@ -1,4 +1,4 @@
-package com.espectro93.examples.springgraphqlbookstore.infrastructure.outbox;
+package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence.outbox;
 
 import org.springframework.data.couchbase.repository.CouchbaseRepository;
 
