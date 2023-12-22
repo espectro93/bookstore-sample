@@ -10,13 +10,15 @@ import org.springframework.jms.support.converter.MessageConverter;
 
 @Configuration
 public class JmsConfig {
+
     @Bean
     public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(
-            ConnectionFactory connectionFactory) {
-
-        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        ConnectionFactory connectionFactory
+    ) {
+        DefaultJmsListenerContainerFactory factory =
+            new DefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
-        factory.setPubSubDomain(true);  // Enable pub-sub
+        factory.setPubSubDomain(true); // Enable pub-sub
         factory.setMessageConverter(messageConverter());
 
         factory.setSessionTransacted(true);
@@ -26,7 +28,8 @@ public class JmsConfig {
 
     @Bean
     public MessageConverter messageConverter() {
-        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+        MappingJackson2MessageConverter converter =
+            new MappingJackson2MessageConverter();
         converter.setTypeIdPropertyName("_type");
         return converter;
     }

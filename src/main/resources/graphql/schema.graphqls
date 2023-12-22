@@ -6,7 +6,7 @@ type Book {
     pages: Int!
     isbn: String!
     publisherName: String!
-    inStock: Boolean!
+    stock: Int!
 }
 
 type Order {
@@ -57,7 +57,7 @@ type Query{
 type Mutation {
   placeOrder(customerId: String!, placeOrderItems: [PlaceOrderItemInput]!): Order
   cancelOrder(customerId: String!, orderId: ID!, placeOrderItems: [PlaceOrderItemInput]!): Order
-  addBookToCatalog(input: AddBookToCatalogInput!): Book
+  addBookToCatalog(addBookToCatalogInput: AddBookToCatalogInput!): Book
 }
 
 

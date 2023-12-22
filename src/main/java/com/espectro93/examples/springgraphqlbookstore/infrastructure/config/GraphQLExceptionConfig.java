@@ -42,9 +42,14 @@ public class GraphQLExceptionConfig implements DataFetcherExceptionResolver {
             );
         }
 
-        if (exception instanceof IllegalArgumentException illegalArgumentException) {
+        if (
+            exception instanceof IllegalArgumentException illegalArgumentException
+        ) {
             log.info("[GraphQLExceptionHandler] illegalArgumentException type");
-            var badRequest = new BadRequestException(illegalArgumentException.getMessage(), sourceLocation);
+            var badRequest = new BadRequestException(
+                illegalArgumentException.getMessage(),
+                sourceLocation
+            );
             return Mono.just(Collections.singletonList(badRequest));
         }
 

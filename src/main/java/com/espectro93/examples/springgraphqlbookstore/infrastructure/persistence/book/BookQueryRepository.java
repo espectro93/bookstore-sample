@@ -2,5 +2,5 @@ package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistenc
 
 import org.springframework.data.couchbase.repository.CouchbaseRepository;
 
-public interface BookQueryRepository extends CouchbaseRepository<BookQueryEntity, String> {
-}
+public interface BookQueryRepository
+    extends CouchbaseRepository<BookQueryEntity, String> {}

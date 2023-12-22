@@ -9,6 +9,7 @@ import com.espectro93.examples.springgraphqlbookstore.core.ports.in.ViewBook;
 import com.espectro93.examples.springgraphqlbookstore.core.ports.in.ViewBooksPaged;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.bind.Name;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -39,12 +40,23 @@ public class BookController {
     }
 
     @MutationMapping
-    public BookDto addBookToCatalog(@Argument AddBookToCatalogDto addBookToCatalogDto) {
-        return BookDto.createFrom(addBookToCatalog.run(
-                new AddBookToCatalogCommand(addBookToCatalogDto.title(), addBookToCatalogDto.authors(),
-                        addBookToCatalogDto.publishDate(), addBookToCatalogDto.pages(),
-                        addBookToCatalogDto.isbn(), addBookToCatalogDto.publisherName(),
-                        addBookToCatalogDto.stock())
-        ));
+    public BookDto addBookToCatalog(
+        @Argument(
+            name = "addBookToCatalogInput"
+        ) AddBookToCatalogDto addBookToCatalogDto
+    ) {
+        return BookDto.createFrom(
+            addBookToCatalog.run(
+                new AddBookToCatalogCommand(
+                    addBookToCatalogDto.title(),
+                    addBookToCatalogDto.authors(),
+                    addBookToCatalogDto.publishDate(),
+                    addBookToCatalogDto.pages(),
+                    addBookToCatalogDto.isbn(),
+                    addBookToCatalogDto.publisherName(),
+                    addBookToCatalogDto.stock()
+                )
+            )
+        );
     }
 }

@@ -15,7 +15,15 @@ public class AddBookToCatalogService implements AddBookToCatalog {
 
     @Override
     public Book run(AddBookToCatalogCommand input) {
-        var book = Book.addBookToCatalog(input.title(), input.authors(), input.publishDate(), input.pages(), input.isbn(), input.publisherName(), input.stock());
+        var book = Book.addBookToCatalog(
+            input.title(),
+            input.authors(),
+            input.publishDate(),
+            input.pages(),
+            input.isbn(),
+            input.publisherName(),
+            input.stock()
+        );
         bookCommandPort.save(book);
         return book;
     }

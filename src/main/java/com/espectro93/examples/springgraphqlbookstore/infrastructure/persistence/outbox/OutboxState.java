@@ -3,5 +3,5 @@ package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistenc
 public enum OutboxState {
     PROCESSED,
     UNPROCESSED,
-    FAILURE
+    FAILURE,
 }

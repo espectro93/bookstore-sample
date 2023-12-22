@@ -13,13 +13,16 @@ public class OutboxScheduler {
     private final OutboxRepository outboxRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
 
-
     //TODO: error resistance, each entity should have its own transaction async and either fail or success
     // idea: just spawn an event here, let the process handle it and check in adapter if it is in outbox published=false, if so set true
     // what about optimistic locking here?
     @Scheduled
     void handleOutboxQueryEvents() {
-        var outboxEntities = outboxRepository.findAllByState(OutboxState.UNPROCESSED);
-        outboxEntities.forEach(entity -> applicationEventPublisher.publishEvent(entity.event()));
+        var outboxEntities = outboxRepository.findAllByState(
+            OutboxState.UNPROCESSED
+        );
+        outboxEntities.forEach(entity ->
+            applicationEventPublisher.publishEvent(entity.event())
+        );
     }
 }

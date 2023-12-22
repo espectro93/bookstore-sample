@@ -5,5 +5,8 @@ import com.espectro93.examples.springgraphqlbookstore.core.domain.order.OrderIte
 import com.espectro93.examples.springgraphqlbookstore.core.domain.shared.Command;
 import java.util.List;
 
-public record PlaceOrderCommand(CustomerId customerId, List<OrderItem> orderItems)
+public record PlaceOrderCommand(
+    CustomerId customerId,
+    List<OrderItem> orderItems
+)
     implements Command {}

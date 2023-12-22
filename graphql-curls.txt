@@ -18,9 +18,11 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --data '{ "query": "{ getBook(bookId: \"123\") { id title authors publishDate } }" }'
 
-curl -X POST -H "Content-Type: application/json" --data '
+curl --location 'http://localhost:8080/graphql' \
+--header 'Content-Type: application/json' \
+--data '
 {
-  "query": "mutation AddBookToCatalog($input: AddBookToCatalogInput!) { addBookToCatalog(input: $input) { title authors publishDate pages isbn publisherName stock } }",
+  "query": "mutation AddBookToCatalog($input: AddBookToCatalogInput!) { addBookToCatalog(addBookToCatalogInput: $input) { title authors publishDate pages isbn publisherName stock } }",
   "variables": {
     "input": {
       "title": "Example Book Title",
@@ -32,4 +34,4 @@ curl -X POST -H "Content-Type: application/json" --data '
       "stock": 100
     }
   }
-}' http://localhost:8080/graphql
+}'

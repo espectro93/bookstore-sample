@@ -4,5 +4,5 @@ import com.espectro93.examples.springgraphqlbookstore.core.application.book.AddB
 import com.espectro93.examples.springgraphqlbookstore.core.domain.book.Book;
 import com.espectro93.examples.springgraphqlbookstore.core.domain.shared.UseCase;
 
-public interface AddBookToCatalog extends UseCase<AddBookToCatalogCommand, Book> {
-}
+public interface AddBookToCatalog
+    extends UseCase<AddBookToCatalogCommand, Book> {}

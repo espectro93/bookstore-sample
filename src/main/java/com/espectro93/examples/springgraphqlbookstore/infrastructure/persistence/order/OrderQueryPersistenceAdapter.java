@@ -16,8 +16,13 @@ public class OrderQueryPersistenceAdapter implements OrderQueryPort {
 
     @Override
     public OrderView loadBy(OrderId orderId) {
-        return orderQueryRepository.findById(orderId.id())
-                .map(OrderQueryEntity::toView)
-                .orElseThrow(() -> new NotFoundException(String.format("Order with id %s not found.", orderId.id())));
+        return orderQueryRepository
+            .findById(orderId.id())
+            .map(OrderQueryEntity::toView)
+            .orElseThrow(() ->
+                new NotFoundException(
+                    String.format("Order with id %s not found.", orderId.id())
+                )
+            );
     }
 }
