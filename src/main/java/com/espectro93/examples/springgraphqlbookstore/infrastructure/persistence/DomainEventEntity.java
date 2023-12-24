@@ -7,7 +7,7 @@ import org.springframework.data.couchbase.core.mapping.Field;
 import org.springframework.data.couchbase.repository.Collection;
 
 @Document
-@Collection("domain_event_store")
+@Collection("domain_events_store")
 public record DomainEventEntity(
     @Id String eventId,
     @Field String aggregateId,
