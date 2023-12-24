@@ -24,8 +24,6 @@ public class OutboxScheduler {
     // what about optimistic locking here?
     @Scheduled(fixedRate = 1000)
     void handleOutboxQueryEvents() {
-        log.info("Handling outbox events...");
-
         List<OutboxEntity> processedEntities = outboxRepository
                 .findAllByState(OutboxState.UNPROCESSED)
                 .stream()

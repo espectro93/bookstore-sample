@@ -9,6 +9,11 @@ import org.springframework.context.annotation.Configuration;
 public class JmsTopics {
 
     @Bean
+    public Topic bookAddedToCatalogTopic() {
+        return new ActiveMQTopic("BookAddedToCatalogTopic");
+    }
+
+    @Bean
     public Topic orderPlacedTopic() {
         return new ActiveMQTopic("OrderPlacedTopic");
     }
@@ -26,6 +31,11 @@ public class JmsTopics {
     @Bean
     public Topic stockDecreasedTopic() {
         return new ActiveMQTopic("StockDecreasedTopic");
+    }
+
+    @Bean
+    public Topic bookAddedToCatalogDeadLetterTopic() {
+        return new ActiveMQTopic("BookAddedToCatalogTopic.DLQ");
     }
 
     @Bean

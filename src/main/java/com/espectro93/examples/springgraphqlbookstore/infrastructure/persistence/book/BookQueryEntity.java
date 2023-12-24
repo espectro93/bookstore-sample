@@ -4,8 +4,12 @@ import com.espectro93.examples.springgraphqlbookstore.core.domain.book.*;
 import java.util.List;
 import lombok.Builder;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.Field;
+import org.springframework.data.couchbase.repository.Collection;
 
+@Document
+@Collection("book_view")
 @Builder(toBuilder = true)
 public record BookQueryEntity(
     @Id String id,

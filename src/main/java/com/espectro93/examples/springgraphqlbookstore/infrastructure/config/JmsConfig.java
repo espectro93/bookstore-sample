@@ -3,12 +3,14 @@ package com.espectro93.examples.springgraphqlbookstore.infrastructure.config;
 import jakarta.jms.ConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.listener.adapter.MessageListenerAdapter;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 
 @Configuration
+@EnableJms
 public class JmsConfig {
 
     @Bean

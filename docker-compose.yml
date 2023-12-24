@@ -22,7 +22,7 @@ services:
     command: sh -c "chmod +x /opt/couchbase/init/init-cb-local.sh && /opt/couchbase/init/init-cb-local.sh"
 
   activemq:
-    image: rmohr/activemq:5.15.9
+    image: rmohr/activemq:latest
     ports:
       - 8161:8161 # Web Console
       - 61616:61616 # JMS
