@@ -22,9 +22,9 @@ services:
     command: sh -c "chmod +x /opt/couchbase/init/init-cb-local.sh && /opt/couchbase/init/init-cb-local.sh"
 
   activemq:
-    image: rmohr/activemq:latest
+    image: apache/activemq-artemis:latest
     ports:
-      - 8161:8161 # Web Console
+      - 8161:8161 # Web Console # artemis:artemis
       - 61616:61616 # JMS
     container_name: activemq
     hostname: activemq
