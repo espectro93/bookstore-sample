@@ -1,7 +1,6 @@
 package com.espectro93.examples.springgraphqlbookstore.core.domain.book;
 
 import com.espectro93.examples.springgraphqlbookstore.core.domain.shared.DomainEvent;
-import com.espectro93.examples.springgraphqlbookstore.core.domain.shared.Identifiable;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;

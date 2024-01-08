@@ -47,9 +47,7 @@ public class BookQueryPersistenceAdapter implements BookQueryPort {
             .toList();
     }
 
-    @JmsListener(
-        destination = "BookAddedToCatalogTopic"
-    )
+    @JmsListener(destination = "BookAddedToCatalogTopic")
     void handleBookAddedToCatalogEvent(BookAddedToCatalogEvent event) {
         if (bookQueryRepository.existsById(event.aggregateId().id())) {
             throw new IllegalArgumentException("That book already exists");
