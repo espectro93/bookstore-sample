@@ -48,8 +48,7 @@ public class BookQueryPersistenceAdapter implements BookQueryPort {
     }
 
     @JmsListener(
-        destination = "BookAddedToCatalogTopic",
-        containerFactory = "jmsListenerContainerFactory"
+        destination = "BookAddedToCatalogTopic"
     )
     void handleBookAddedToCatalogEvent(BookAddedToCatalogEvent event) {
         if (bookQueryRepository.existsById(event.aggregateId().id())) {
