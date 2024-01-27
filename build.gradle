@@ -24,6 +24,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-activemq'
 
     implementation 'com.github.differentway:couchmove:3.3.2'
+    implementation 'commons-io:commons-io:2.15.1'
+
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
@@ -34,8 +36,6 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.24.2'
     testImplementation 'org.springframework:spring-webflux'
     testImplementation 'org.springframework.graphql:spring-graphql-test'
-
-    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 
 }
 

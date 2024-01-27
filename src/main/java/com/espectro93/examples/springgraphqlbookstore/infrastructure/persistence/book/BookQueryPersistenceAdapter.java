@@ -57,8 +57,7 @@ public class BookQueryPersistenceAdapter implements BookQueryPort {
     }
 
     @JmsListener(
-        destination = "StockDecreasedTopic",
-        containerFactory = "jmsListenerContainerFactory"
+        destination = "StockDecreasedTopic"
     )
     void handleStockDecreasedEvent(StockDecreasedEvent event) {
         var bookQueryEntity = bookQueryRepository
