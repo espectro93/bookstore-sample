@@ -23,7 +23,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-activemq'
 
-    implementation 'com.github.differentway:couchmove:3.3.2'
+    implementation 'com.github.differentway:couchmove:3.4.1'
     implementation 'commons-io:commons-io:2.15.1'
 
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
