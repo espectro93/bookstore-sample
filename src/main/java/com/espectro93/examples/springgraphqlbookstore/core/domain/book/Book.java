@@ -39,8 +39,7 @@ public class Book implements AggregateRoot<BookId, Book> {
         String publisherName,
         int stock
     ) {
-        var book = Book
-            .builder()
+        var book = Book.builder()
             .title(title)
             .authors(authors)
             .publishDate(publishDate)
@@ -55,8 +54,7 @@ public class Book implements AggregateRoot<BookId, Book> {
     }
 
     private BookAddedToCatalogEvent createBookAddedToCatalogEvent() {
-        return BookAddedToCatalogEvent
-            .builder()
+        return BookAddedToCatalogEvent.builder()
             .bookId(id)
             .title(title)
             .authors(authors)
@@ -89,8 +87,7 @@ public class Book implements AggregateRoot<BookId, Book> {
             }
             case StockDecreasedEvent stockDecreasedEvent -> {
                 if (stockDecreasedEvent.quantity() <= stock) {
-                    yield Book
-                        .builder()
+                    yield Book.builder()
                         .stock(stock - stockDecreasedEvent.quantity())
                         .build();
                 } else throw new IllegalArgumentException(
@@ -113,37 +110,47 @@ public class Book implements AggregateRoot<BookId, Book> {
                 (currentBook, event) ->
                     currentBook
                         .map(b -> b.applyEvent(event))
-                        .or(() ->
-                            event instanceof BookAddedToCatalogEvent bookAddedToCatalogEvent
-                                ? Optional.of(
-                                    Book
-                                        .builder()
-                                        .id(
-                                            bookAddedToCatalogEvent.aggregateId()
-                                        )
-                                        .title(bookAddedToCatalogEvent.title())
-                                        .authors(
-                                            bookAddedToCatalogEvent.authors()
-                                        )
-                                        .publishDate(
-                                            bookAddedToCatalogEvent.publishDate()
-                                        )
-                                        .pages(bookAddedToCatalogEvent.pages())
-                                        .isbn(bookAddedToCatalogEvent.isbn())
-                                        .publisherName(
-                                            bookAddedToCatalogEvent.publisherName()
-                                        )
-                                        .stock(bookAddedToCatalogEvent.stock())
-                                        .build()
-                                )
-                                : Optional.empty()
+                        .or(
+                            () ->
+                                event instanceof
+                                    BookAddedToCatalogEvent bookAddedToCatalogEvent
+                                    ? Optional.of(
+                                        Book.builder()
+                                            .id(
+                                                bookAddedToCatalogEvent.aggregateId()
+                                            )
+                                            .title(
+                                                bookAddedToCatalogEvent.title()
+                                            )
+                                            .authors(
+                                                bookAddedToCatalogEvent.authors()
+                                            )
+                                            .publishDate(
+                                                bookAddedToCatalogEvent.publishDate()
+                                            )
+                                            .pages(
+                                                bookAddedToCatalogEvent.pages()
+                                            )
+                                            .isbn(
+                                                bookAddedToCatalogEvent.isbn()
+                                            )
+                                            .publisherName(
+                                                bookAddedToCatalogEvent.publisherName()
+                                            )
+                                            .stock(
+                                                bookAddedToCatalogEvent.stock()
+                                            )
+                                            .build()
+                                    )
+                                    : Optional.empty()
                         ),
                 (existingBook, newBook) -> newBook
             )
-            .orElseThrow(() ->
-                new IllegalArgumentException(
-                    "cannot build book aggregate from events"
-                )
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        "cannot build book aggregate from events"
+                    )
             );
     }
 }

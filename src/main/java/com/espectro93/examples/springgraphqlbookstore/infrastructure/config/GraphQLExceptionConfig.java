@@ -29,7 +29,8 @@ public class GraphQLExceptionConfig implements DataFetcherExceptionResolver {
         );
 
         if (
-            exception instanceof ConstraintViolationException constraintViolationException
+            exception instanceof
+            ConstraintViolationException constraintViolationException
         ) {
             log.info(
                 "[GraphQLExceptionHandler] ConstraintViolationException type"
@@ -43,7 +44,8 @@ public class GraphQLExceptionConfig implements DataFetcherExceptionResolver {
         }
 
         if (
-            exception instanceof IllegalArgumentException illegalArgumentException
+            exception instanceof
+            IllegalArgumentException illegalArgumentException
         ) {
             log.info("[GraphQLExceptionHandler] illegalArgumentException type");
             var badRequest = new BadRequestException(
@@ -72,11 +74,12 @@ public class GraphQLExceptionConfig implements DataFetcherExceptionResolver {
         return exception
             .getConstraintViolations()
             .stream()
-            .map(constraint ->
-                new BadRequestException(
-                    constraint.getMessageTemplate(),
-                    locations
-                )
+            .map(
+                constraint ->
+                    new BadRequestException(
+                        constraint.getMessageTemplate(),
+                        locations
+                    )
             )
             .map(GraphQLError.class::cast)
             .toList();

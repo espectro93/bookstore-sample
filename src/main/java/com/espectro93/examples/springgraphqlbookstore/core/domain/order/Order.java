@@ -36,8 +36,7 @@ public class Order implements AggregateRoot<OrderId, Order> {
         CustomerId customerId,
         List<OrderItem> orderItems
     ) {
-        var order = Order
-            .builder()
+        var order = Order.builder()
             .customerId(customerId)
             .orderItems(orderItems)
             .orderState(OrderState.PLACED)
@@ -71,8 +70,7 @@ public class Order implements AggregateRoot<OrderId, Order> {
     public Order applyEvent(DomainEvent event) {
         return switch (event) {
             case OrderPlacedEvent ignored -> this;
-            case OrderCancelledEvent orderCancelledEvent -> Order
-                .builder()
+            case OrderCancelledEvent orderCancelledEvent -> Order.builder()
                 .orderState(orderCancelledEvent.orderState())
                 .build();
             default -> throw new IllegalStateException(
@@ -89,26 +87,28 @@ public class Order implements AggregateRoot<OrderId, Order> {
                 (currentOrder, event) ->
                     currentOrder
                         .map(o -> o.applyEvent(event))
-                        .or(() ->
-                            event instanceof OrderPlacedEvent orderPlacedEvent
-                                ? Optional.of(
-                                    Order
-                                        .builder()
-                                        .id(orderPlacedEvent.aggregateId())
-                                        .orderItems(
-                                            orderPlacedEvent.orderItems()
-                                        )
-                                        .date(orderPlacedEvent.eventTime())
-                                        .build()
-                                )
-                                : Optional.empty()
+                        .or(
+                            () ->
+                                event instanceof
+                                    OrderPlacedEvent orderPlacedEvent
+                                    ? Optional.of(
+                                        Order.builder()
+                                            .id(orderPlacedEvent.aggregateId())
+                                            .orderItems(
+                                                orderPlacedEvent.orderItems()
+                                            )
+                                            .date(orderPlacedEvent.eventTime())
+                                            .build()
+                                    )
+                                    : Optional.empty()
                         ),
                 (existingOrder, newOrder) -> newOrder
             )
-            .orElseThrow(() ->
-                new IllegalArgumentException(
-                    "cannot build order aggregate from events"
-                )
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        "cannot build order aggregate from events"
+                    )
             );
     }
 }

@@ -16,8 +16,8 @@ public class JmsTopicPublisher {
     JmsTopicPublisher(JmsTemplate jmsTemplate) {
         this.jmsTemplate = jmsTemplate;
         jmsTemplate.setPubSubDomain(true);
-        this.objectMapper =
-            new ObjectMapper().registerModule(new JavaTimeModule());
+        this.objectMapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule());
     }
 
     @SneakyThrows

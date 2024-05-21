@@ -1,6 +1,5 @@
 package com.espectro93.examples.springgraphqlbookstore.infrastructure.messaging;
 
-
 import com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence.outbox.OutboxEntity;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;

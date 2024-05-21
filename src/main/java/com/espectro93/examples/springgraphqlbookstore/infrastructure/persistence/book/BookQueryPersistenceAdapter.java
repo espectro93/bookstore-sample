@@ -24,10 +24,14 @@ public class BookQueryPersistenceAdapter implements BookQueryPort {
         return bookQueryRepository
             .findById(bookId.id())
             .map(BookQueryEntity::toView)
-            .orElseThrow(() ->
-                new NotFoundException(
-                    String.format("book with bookId: %s not found", bookId.id())
-                )
+            .orElseThrow(
+                () ->
+                    new NotFoundException(
+                        String.format(
+                            "book with bookId: %s not found",
+                            bookId.id()
+                        )
+                    )
             );
     }
 
@@ -56,19 +60,18 @@ public class BookQueryPersistenceAdapter implements BookQueryPort {
         bookQueryRepository.save(bookView);
     }
 
-    @JmsListener(
-        destination = "StockDecreasedTopic"
-    )
+    @JmsListener(destination = "StockDecreasedTopic")
     void handleStockDecreasedEvent(StockDecreasedEvent event) {
         var bookQueryEntity = bookQueryRepository
             .findById(event.aggregateId().id())
-            .orElseThrow(() ->
-                new IllegalArgumentException(
-                    String.format(
-                        "Book with id %s does not exist.",
-                        event.aggregateId().id()
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        String.format(
+                            "Book with id %s does not exist.",
+                            event.aggregateId().id()
+                        )
                     )
-                )
             );
         var bookView = bookQueryEntity.fromEvent(event);
         bookQueryRepository.save(bookView);
@@ -81,13 +84,14 @@ public class BookQueryPersistenceAdapter implements BookQueryPort {
     void handleStockIncreasedEvent(StockIncreasedEvent event) {
         var bookQueryEntity = bookQueryRepository
             .findById(event.aggregateId().id())
-            .orElseThrow(() ->
-                new IllegalArgumentException(
-                    String.format(
-                        "Book with id %s does not exist.",
-                        event.aggregateId().id()
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        String.format(
+                            "Book with id %s does not exist.",
+                            event.aggregateId().id()
+                        )
                     )
-                )
             );
         var bookView = bookQueryEntity.fromEvent(event);
         bookQueryRepository.save(bookView);

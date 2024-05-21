@@ -1,11 +1,10 @@
 package com.espectro93.examples.springgraphqlbookstore.core.domain.book;
 
 import com.espectro93.examples.springgraphqlbookstore.core.domain.shared.DomainEvent;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
-
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Builder;
 
 public record BookAddedToCatalogEvent(

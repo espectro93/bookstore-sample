@@ -18,10 +18,10 @@ public class JmsConfig {
 
     @Bean
     public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(
-            ConnectionFactory connectionFactory
+        ConnectionFactory connectionFactory
     ) {
         DefaultJmsListenerContainerFactory factory =
-                new DefaultJmsListenerContainerFactory();
+            new DefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
         factory.setPubSubDomain(true); // Enable pub-sub
         factory.setMessageConverter(messageConverter());
@@ -34,9 +34,11 @@ public class JmsConfig {
     @Bean
     public MessageConverter messageConverter() {
         MappingJackson2MessageConverter converter =
-                new MappingJackson2MessageConverter();
+            new MappingJackson2MessageConverter();
         converter.setTypeIdPropertyName("_type");
-        converter.setObjectMapper(new ObjectMapper().registerModule(new JavaTimeModule()));
+        converter.setObjectMapper(
+            new ObjectMapper().registerModule(new JavaTimeModule())
+        );
         return converter;
     }
 }

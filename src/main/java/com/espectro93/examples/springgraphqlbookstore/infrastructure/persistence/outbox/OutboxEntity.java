@@ -1,7 +1,6 @@
 package com.espectro93.examples.springgraphqlbookstore.infrastructure.persistence.outbox;
 
 import com.espectro93.examples.springgraphqlbookstore.core.domain.shared.DomainEvent;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.Builder;
@@ -23,8 +22,7 @@ public record OutboxEntity(
     @Version long version
 ) {
     public static OutboxEntity createFrom(DomainEvent event) {
-        return OutboxEntity
-            .builder()
+        return OutboxEntity.builder()
             .id(event.eventId())
             .event(event)
             .state(OutboxState.UNPROCESSED)
@@ -34,6 +32,8 @@ public record OutboxEntity(
 
     @SneakyThrows
     public String serializeEvent() {
-        return new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(this.event);
+        return new ObjectMapper()
+            .registerModule(new JavaTimeModule())
+            .writeValueAsString(this.event);
     }
 }
