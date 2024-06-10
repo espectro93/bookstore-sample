@@ -14,10 +14,7 @@ public class OrderStockUpdateHandler {
 
     private final BookCommandPort bookCommandPort;
 
-    @JmsListener(
-        destination = "OrderPlacedTopic",
-        containerFactory = "jmsListenerContainerFactory"
-    )
+    @JmsListener(destination = "OrderPlacedTopic")
     void handleOrderPlacedEvent(OrderPlacedEvent event) {
         event
             .orderItems()
@@ -28,10 +25,7 @@ public class OrderStockUpdateHandler {
             });
     }
 
-    @JmsListener(
-        destination = "OrderCancelledTopic",
-        containerFactory = "jmsListenerContainerFactory"
-    )
+    @JmsListener(destination = "OrderCancelledTopic")
     void handleOrderCancelledEvent(OrderCancelledEvent event) {
         event
             .orderItems()

@@ -11,20 +11,14 @@ import org.springframework.stereotype.Component;
 public class JmsTopicPublisher {
 
     private final JmsTemplate jmsTemplate;
-    private final ObjectMapper objectMapper;
 
     JmsTopicPublisher(JmsTemplate jmsTemplate) {
         this.jmsTemplate = jmsTemplate;
         jmsTemplate.setPubSubDomain(true);
-        this.objectMapper = new ObjectMapper()
-            .registerModule(new JavaTimeModule());
     }
 
     @SneakyThrows
     public void sendMessage(String topic, OutboxEntity entity) {
-        jmsTemplate.convertAndSend(
-            topic,
-            objectMapper.writeValueAsString(entity.event())
-        );
+        jmsTemplate.convertAndSend(topic, entity.event());
     }
 }
