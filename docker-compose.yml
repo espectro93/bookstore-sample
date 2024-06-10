@@ -8,18 +8,11 @@ services:
       - 8092:8092
       - 8093:8093
       - 11210:11210
-    environment:
-      - CLUSTER_NAME=couchbase-local
-      - COUCHBASE_ADMINISTRATOR_USERNAME=Administrator
-      - COUCHBASE_ADMINISTRATOR_PASSWORD=password
-      - COUCHBASE_BUCKET=bookstore-sample
     hostname: couchbase-server
     container_name: couchbase-server
     working_dir: /opt/couchbase
     stdin_open: true
     tty: true
-    entrypoint: [""]
-    command: sh -c "chmod +x /opt/couchbase/init/init-cb-local.sh && /opt/couchbase/init/init-cb-local.sh"
 
   activemq:
     image: apache/activemq-artemis:latest
