@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+
+  couchbase-server:
+    build: ./cb-local-server
+    ports:
+      - 8091:8091
+      - 8092:8092
+      - 8093:8093
+      - 11210:11210
+    hostname: couchbase-server
+    container_name: couchbase-server
+    working_dir: /opt/couchbase
+    stdin_open: true
+    tty: true
+
+  activemq:
+    image: apache/activemq-artemis:latest
+    ports:
+      - 8161:8161 # Web Console # artemis:artemis
+      - 61616:61616 # JMS
+    container_name: activemq
+    hostname: activemq

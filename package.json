@@ -1,0 +1,16 @@
+{
+  "name": "bookstore-sample",
+  "version": "1.0.0",
+  "description": "Sample application of an online bookstore",
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "author": "espectro93",
+  "devDependencies": {
+    "@commitlint/cli": "^19.2.2",
+    "@commitlint/config-conventional": "^19.2.2",
+    "husky": "^9.0.11",
+    "prettier": "^3.2.5",
+    "prettier-plugin-java": "^2.6.0"
+  }
+}

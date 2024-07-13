@@ -1,0 +1,16 @@
+storage:
+  host: couchbase://127.0.0.1
+  bucket: bookstore-sample
+  username: Administrator
+  password: password
+spring:
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: artemis
+    password: artemis
+
+logging:
+  level:
+    org:
+      springframework:
+        jms=DEBUG:
