@@ -1,9 +1,7 @@
 package com.espectro93.examples.springgraphqlbookstore.core.domain.book;
 
-import static org.assertj.core.api.FactoryBasedNavigableListAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.Test;

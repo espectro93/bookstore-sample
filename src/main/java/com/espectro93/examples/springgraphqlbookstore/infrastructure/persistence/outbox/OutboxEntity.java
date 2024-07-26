@@ -20,7 +20,8 @@ public record OutboxEntity(
     @Id String id,
     @Field DomainEvent event,
     @Field String topicName,
-    @Field Instant creationTimestamp
+    @Field Instant creationTimestamp,
+    @Version long version
 ) {
     public static OutboxEntity createFrom(DomainEvent event) {
         return OutboxEntity.builder()

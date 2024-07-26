@@ -29,7 +29,7 @@ public record OrderPlacedEvent(
             UUID.randomUUID().toString(),
             orderId,
             date,
-            "OrderPlacedEvent",
+            "OrderPlaced",
             customerId,
             orderItems,
             orderState

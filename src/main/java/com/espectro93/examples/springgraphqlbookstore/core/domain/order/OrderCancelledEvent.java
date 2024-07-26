@@ -25,7 +25,7 @@ public record OrderCancelledEvent(
             UUID.randomUUID().toString(),
             aggregateId,
             Instant.now(),
-            "OrderCancelledEvent",
+            "OrderCancelled",
             customerId,
             orderItems,
             OrderState.CANCELLED

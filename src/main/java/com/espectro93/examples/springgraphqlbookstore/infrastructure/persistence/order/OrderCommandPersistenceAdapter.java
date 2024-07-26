@@ -41,9 +41,7 @@ public class OrderCommandPersistenceAdapter implements OrderCommandPort {
 
     @Override
     public Order loadBy(OrderId orderId) {
-        var events = domainEventRepository.findAllById(
-            Collections.singleton(orderId.id())
-        );
+        var events = domainEventRepository.findAllByAggregateId(orderId.id());
         return Order.rehydrate(
             events.stream().map(DomainEventEntity::event).toList()
         );

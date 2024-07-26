@@ -4,4 +4,6 @@ import java.util.List;
 import org.springframework.data.couchbase.repository.CouchbaseRepository;
 
 public interface DomainEventRepository
-    extends CouchbaseRepository<DomainEventEntity, String> {}
+    extends CouchbaseRepository<DomainEventEntity, String> {
+    List<DomainEventEntity> findAllByAggregateId(String aggregateId);
+}

@@ -41,9 +41,7 @@ public class BookCommandPersistenceAdapter implements BookCommandPort {
 
     @Override
     public Book loadBy(BookId bookId) {
-        var events = domainEventRepository.findAllById(
-            Collections.singleton(bookId.id())
-        );
+        var events = domainEventRepository.findAllByAggregateId(bookId.id());
         return Book.rehydrate(
             events.stream().map(DomainEventEntity::event).toList()
         );

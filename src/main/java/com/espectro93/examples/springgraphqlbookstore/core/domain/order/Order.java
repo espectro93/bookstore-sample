@@ -70,7 +70,7 @@ public class Order implements AggregateRoot<OrderId, Order> {
     public Order applyEvent(DomainEvent event) {
         return switch (event) {
             case OrderPlacedEvent ignored -> this;
-            case OrderCancelledEvent orderCancelledEvent -> Order.builder()
+            case OrderCancelledEvent orderCancelledEvent -> this.toBuilder()
                 .orderState(orderCancelledEvent.orderState())
                 .build();
             default -> throw new IllegalStateException(
@@ -96,6 +96,9 @@ public class Order implements AggregateRoot<OrderId, Order> {
                                             .id(orderPlacedEvent.aggregateId())
                                             .orderItems(
                                                 orderPlacedEvent.orderItems()
+                                            )
+                                            .customerId(
+                                                orderPlacedEvent.customerId()
                                             )
                                             .date(orderPlacedEvent.eventTime())
                                             .build()
